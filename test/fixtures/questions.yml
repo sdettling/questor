@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  query: MyText
+  min_selections: 1
+  max_selections: 1
+  ranked: false
+
+two:
+  query: MyText
+  min_selections: 1
+  max_selections: 1
+  ranked: false
