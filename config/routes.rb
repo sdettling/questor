@@ -1,5 +1,8 @@
 Questor::Application.routes.draw do
 
+  resources :question_options
+
+
   resources :questions
 
 

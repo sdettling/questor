@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130308002849) do
+ActiveRecord::Schema.define(:version => 20130308004145) do
+
+  create_table "question_options", :force => true do |t|
+    t.text     "description"
+    t.integer  "question_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "questions", :force => true do |t|
     t.text     "query"
@@ -20,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20130308002849) do
     t.boolean  "ranked"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.integer  "user_id"
   end
 
   create_table "users", :force => true do |t|
