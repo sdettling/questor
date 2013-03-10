@@ -1,15 +1,13 @@
-= form_for(@question) do |f|
+= form_for @question do |f|
   - if @question.errors.any?
-    #error_explanation
+    .error_messages
       %h2
-        - pluralize(@question.errors.count, "error")
-        prohibited this question from being saved:
+        = pluralize(@question.errors.count, "error")
+        prohibited this survey from being saved:
       %ul
         - @question.errors.full_messages.each do |msg|
-        %li
-          = msg
-        - end
-  -end
+          %li
+            = msg
   .field
     = f.label :query
     = f.text_area :query
@@ -25,11 +23,8 @@
   
   = f.fields_for :question_options do |builder|
     = render "question_option_fields", f: builder
-  - end
   
   = link_to_add_fields "Add Option", f, :question_options
 
   .actions
     = f.submit
-
-- end
