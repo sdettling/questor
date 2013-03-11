@@ -1,5 +1,11 @@
 Questor::Application.routes.draw do
 
+  resources :answer_choices
+
+
+  resources :answers
+
+
   resources :question_options
 
 

@@ -1,0 +1,15 @@
+%h1
+  Listing questions
+
+- @questions.each do |question|
+  = question.query
+  = question.min_selections
+  = question.max_selections
+  = question.ranked
+  - question.question_options.each do |option|
+    = render "answer_options_form", :option => option
+  = link_to 'Show', question
+  = link_to 'Edit', edit_question_path(question)
+  = link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' }
+
+= link_to 'New Question', new_question_path
