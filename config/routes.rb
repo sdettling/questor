@@ -1,16 +1,7 @@
 Questor::Application.routes.draw do
 
-  resources :answer_choices
-
-
   resources :answers
-
-
-  resources :question_options
-
-
   resources :questions
-
 
   get 'signup', to: 'users#new', as: 'signup'
   get 'login', to: 'sessions#new', as: 'login'
@@ -19,7 +10,7 @@ Questor::Application.routes.draw do
   resources :sessions
   resources :users
 
-  root to: 'users#new'
+  root to: 'questions#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
