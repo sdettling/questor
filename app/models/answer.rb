@@ -1,7 +1,7 @@
 class Answer < ActiveRecord::Base
-  attr_accessible :question_id, :answer_choices_attributes
+  attr_accessible :user_id, :question_option_id
+
   belongs_to :user
-  belongs_to :question
-  has_many :answer_choices  
-  accepts_nested_attributes_for :answer_choices, allow_destroy: true
+  belongs_to :question_option
+
 end
