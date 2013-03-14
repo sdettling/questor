@@ -11,6 +11,9 @@
     - question.question_options.each do |option|
       = check_box_tag "question_option_ids[]", option.id
       = label_tag option.id, option.description
+      [
+      = option.answers.length
+      ]
     = submit_tag "Vote"
   /- question.question_options.each do |option|
   /  = check_box_tag "question_option_id", option.id
