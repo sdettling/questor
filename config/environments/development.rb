@@ -34,4 +34,7 @@ Questor::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  FACEBOOK_KEY = '141046872738278'
+  FACEBOOK_SECRET = '634ef09a2ded59f8c6da7b4e7c881875'
 end
