@@ -21,6 +21,8 @@
     = f.label :ranked
     = f.check_box :ranked
   
+  #slider-range
+
   = f.fields_for :question_options do |builder|
     = render "question_option_fields", f: builder
   

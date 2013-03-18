@@ -3,4 +3,5 @@ class QuestionOption < ActiveRecord::Base
   belongs_to :question
   has_many :answers
   validates :description, :presence => true
+  #validates_presence_of :question
 end

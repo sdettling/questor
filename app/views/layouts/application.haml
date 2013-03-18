@@ -16,4 +16,6 @@
         = link_to "Sign Up", signup_path
         or
         = link_to "Log in with Facebook", "auth/facebook"
+    - flash.each do |name, msg|
+      = content_tag :div, msg, :id => "flash_#{name}"
     = yield

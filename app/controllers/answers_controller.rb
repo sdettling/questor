@@ -11,19 +11,33 @@ class AnswersController < ApplicationController
 
   # POST /answers
   def create
-    #@answer = Answer.new(params[:answer])
-    #@answer.user = current_user if current_user nil?
-    if current_user
-      Question.find(params[:question_id]).answers.where("user_id = ?", current_user.id).destroy_all
-      params[:question_option_ids].each do |oid|
-        current_user.answers.create(:question_option_id => oid)
-      end
+
+    @formerrors = []
+    question = Question.find(params[:question_id])
+    max = question.max_selections
+    min = question.min_selections
+    if params.has_key?(:question_option_ids)
+      total = params[:question_option_ids].count
+      @formerrors << "You must select between #{@min_o} and #{@max_o} options" if ( total < min || total > max )
     else
-      params[:question_option_ids].each do |oid|
-        Answer.create(:question_option_id => oid)
-      end
+      @formerrors << "You must select at least one option"
     end
+    if @formerrors.empty?
+      if current_user
+        question.answers.where("user_id = ?", current_user.id).destroy_all
+        params[:question_option_ids].each do |oid|
+          current_user.answers.create(:question_option_id => oid)
+        end
+      else
+        params[:question_option_ids].each do |oid|
+          Answer.create(:question_option_id => oid)
+        end
+      end
     redirect_to action: "index", controller: "questions"
+    else
+      flash[:notice] = "There be errors"
+      redirect_to action: "index", controller: "questions"
+    end
   end
 
 end
