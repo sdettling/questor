@@ -8,25 +8,32 @@
         - @question.errors.full_messages.each do |msg|
           %li
             = msg
-  .field
-    = f.label :query
-    = f.text_area :query
-  .field
-    = f.label :min_selections
-    = f.number_field :min_selections
-  .field
-    = f.label :max_selections
-    = f.number_field :max_selections
-  .field
-    = f.label :ranked
-    = f.check_box :ranked
+  .step
+    %h4
+      What is your Question?
+    = f.text_area :query, :cols => "100", :rows => "3" 
+  .step
+    %h4
+      What are the possible answers for your question?
+    = f.fields_for :question_options do |builder|
+      = render "question_option_fields", f: builder
   
+    = link_to_add_fields "Add Answer", f, :question_options
+  .step
+    %h4
+      How can others answer your question?
+
+    = f.label :min_selections
+    = f.number_field :min_selections, class: "selectnum"
+    = f.label :max_selections
+    = f.number_field :max_selections, class: "selectnum"
+    .field
+      = f.label :ranked
+      = f.check_box :ranked
+
   #slider-range
 
-  = f.fields_for :question_options do |builder|
-    = render "question_option_fields", f: builder
   
-  = link_to_add_fields "Add Option", f, :question_options
 
   .actions
     = f.submit

@@ -6,16 +6,20 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body
-    #user_header
-      - if current_user
-        Logged in as
-        = current_user.email
-        \.
-        = link_to "Log Out", logout_path
-      - else
-        = link_to "Sign Up", signup_path
-        or
-        = link_to "Log in with Facebook", "auth/facebook"
-    - flash.each do |name, msg|
-      = content_tag :div, msg, :id => "flash_#{name}"
-    = yield
+    .navbar
+      .navbar-inner
+        .container
+          - if current_user
+            Logged in as
+            = current_user.email
+            \.
+            = link_to "Log Out", logout_path
+          - else
+            /= link_to "Sign Up", signup_path
+            /or
+            = link_to "Log in with Facebook", "auth/facebook"
+    .container
+      - flash.each do |name, msg|
+        .alert
+          = content_tag :div, msg, :id => "flash_#{name}"
+      = yield

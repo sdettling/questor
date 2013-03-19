@@ -18,7 +18,7 @@ class AnswersController < ApplicationController
     min = question.min_selections
     if params.has_key?(:question_option_ids)
       total = params[:question_option_ids].count
-      @formerrors << "You must select between #{@min_o} and #{@max_o} options" if ( total < min || total > max )
+      @formerrors << "You must select between #{min} and #{max} options" if ( total < min || total > max )
     else
       @formerrors << "You must select at least one option"
     end
@@ -35,7 +35,7 @@ class AnswersController < ApplicationController
       end
     redirect_to action: "index", controller: "questions"
     else
-      flash[:notice] = "There be errors"
+      flash[:notice] = @formerrors.first
       redirect_to action: "index", controller: "questions"
     end
   end

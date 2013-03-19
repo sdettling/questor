@@ -13,5 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.slider
-//= require jquery.ui.sortable
+//= require jquery.ui.draggable
+//= require jquery.ui.droppable
 //= require_tree .

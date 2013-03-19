@@ -2,36 +2,93 @@
   Listing questions
 
 - @questions.each do |question|
-  = question.query
-  = question.min_selections
-  = question.max_selections
-  = question.ranked
-  = form_tag("/answers", :method => "post") do
-    = hidden_field_tag "question_id", question.id
-    - if question.ranked
-      %ul#sortable1.droptrue
-        - question.max_selections.times do
-          %li
-      %ul#sortable2.droptrue
-        - question.question_options.each do |option|
-          %li
-            = label_tag option.id, option.description
-    -else
-      - question.question_options.each do |option|  
-        - if question.min_selections == 1 && question.max_selections == 1
-          = radio_button_tag "question_option_ids[]", option.id
+  .question
+    = question.query
+    %div
+      %span.label
+        - if question.min_selections == question.max_selections
+          Choose
+          = question.min_selections
+        - elsif question.min_selections == 1 && question.max_selections == question.question_options.count
+          - if question.ranked
+            Rank
+          - else
+            Choose
+          all that apply
         - else
-          = check_box_tag "question_option_ids[]", option.id
-        = label_tag option.id, option.description
-    = submit_tag "Vote"
-  /- question.question_options.each do |option|
-  /  = check_box_tag "question_option_id", option.id
-  /  = label_tag option.id, option.description
+          - if question.ranked
+            Rank
+          - else
+            Choose
+          between
+          = question.min_selections
+          and
+          = question.max_selections
 
-  /= render "answer_options_form", :question => question
-  /= render :partial => 'answers/form', :locals => {:question => question}
-  = link_to 'Show', question
-  = link_to 'Edit', edit_question_path(question)
-  = link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' }
+    = form_tag("/answers", :method => "post") do
+      = hidden_field_tag "question_id", question.id
+      /= hidden_field_tag "question_option_ids[]", ""
+      /= hidden_field_tag "question_option_ids[]", ""
+      /= hidden_field_tag "question_option_ids[]", ""
+      - if question.ranked
+        %ul.ranked_answers
+          - question.max_selections.times do |i|
+            %li.droppable
+              .num
+                = i+1
+              .content
+            .clearfix
+        %ul.ranked_options
+          - question.question_options.each do |option|
+            %li.draggable
+              .num
+              .content
+                = option.description
+              .drag
+            .clearfix
+        :javascript
+          $(function() {
+            $( ".draggable" ).draggable();
+            $( ".droppable" ).droppable({
+              accept: ".draggable",
+              activeClass: "ui-state-hover",
+              hoverClass: "ui-state-active",
+              drop: function( event, ui ) {
+                $( this )
+                  .addClass( "ui-state-highlight" )
+              }
+            });
+          });
+      -else
+        - question.question_options.each do |option|  
+          - if question.min_selections == 1 && question.max_selections == 1
+            = radio_button_tag "question_option_ids[]", option.id
+          - else
+            = check_box_tag "question_option_ids[]", option.id
+          = label_tag option.id, option.description
+      = submit_tag "Vote"
 
-= link_to 'New Question', new_question_path
+    .results
+      %h5
+        Results
+      - question.question_options.each do |option|
+        %div
+          %span.badge.badge-inverse
+            = option.answers.count
+          = option.description
+
+    /- question.question_options.each do |option|
+    /  = check_box_tag "question_option_id", option.id
+    /  = label_tag option.id, option.description
+
+    /= render "answer_options_form", :question => question
+    /= render :partial => 'answers/form', :locals => {:question => question}
+    .btn-group
+      /= link_to 'Show', question, class: "btn"
+      - if current_user
+        -if question.user_id == current_user.id
+          = link_to 'Edit', edit_question_path(question), class: "btn"
+          = link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn"
+    .clearfix
+- if current_user
+  = link_to 'New Question', new_question_path, class: "btn"
