@@ -1,16 +1,5 @@
-Question
-  belongs_to User
-  has_many QuestionOptions
-  has_many Answers
-  has_many AnswerChoices through Answer
+This app allows users to create questions and see how visitors respond.
 
-QuestionOption
-  belongs_to Question
-
-Answer
-  belongs_to Question
-  has_many AnswerChoices
-
-AnswerChoice
-  belongs_to Answer
-  belongs_to QuestionOption
+As this is a work in progress there are some incomplete features:
+  - When creating questions you can modify the min/max required by dragging the red/blue sliders
+  - Questions that should be ranked will show a draggable list of items. You can drag them but its not too pretty and the form cannot be submitted.
